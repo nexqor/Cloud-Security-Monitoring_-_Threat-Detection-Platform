@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Override sqlite default to use the postgres service below when running via compose
+      DATABASE_URL: postgresql://cloudshield:cloudshield@db:5432/cloudshield
+    depends_on:
+      - db
+    volumes:
+      - ./generated_reports:/app/generated_reports
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cloudshield
+      POSTGRES_PASSWORD: cloudshield
+      POSTGRES_DB: cloudshield
+    ports:
+      - "5432:5432"
+    volumes:
+      - cloudshield_pgdata:/var/lib/postgresql/data
+
+volumes:
+  cloudshield_pgdata:
