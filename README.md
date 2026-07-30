@@ -579,5 +579,3 @@ Replace the placeholder:
 ```text
 git clone https://github.com/manishkumar0607/Cloud-Security-Monitoring_-_Threat-Detection-Platform.git
 ```
-
-with **your actual GitHub repository URL** before submitting. Also consider adding screenshots of your Swagger UI, dashboard, and report generation in the README—they make a strong impression during evaluation.
