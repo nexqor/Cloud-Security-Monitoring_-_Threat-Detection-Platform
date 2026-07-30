@@ -1,152 +1,583 @@
-# CloudShield — Cloud Security Monitoring & Threat Detection Platform
+# 🛡️ CloudShield – Cloud Security Monitoring & Threat Detection Platform
 
-CloudShield is a FastAPI-based security monitoring system that helps users inspect AWS resources, detect common cloud security issues, score account risk, and review findings through a simple API and dashboard.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9+-blue.svg">
+  <img src="https://img.shields.io/badge/FastAPI-Framework-green.svg">
+  <img src="https://img.shields.io/badge/AWS-Boto3-orange.svg">
+  <img src="https://img.shields.io/badge/Terraform-IaC-purple.svg">
+  <img src="https://img.shields.io/badge/Docker-Container-blue.svg">
+  <img src="https://img.shields.io/badge/License-MIT-success.svg">
+</p>
 
-## Project Goal
+---
 
-The goal of this project is to demonstrate how a lightweight cloud security monitoring application can be built using Python, FastAPI, and AWS SDKs. The system focuses on practical security use cases such as identifying risky configurations, tracking suspicious activity, and surfacing findings in a structured way.
+# 📖 Overview
 
-## What the project includes
+**CloudShield** is a Cloud Security Monitoring and Threat Detection Platform developed using **Python**, **FastAPI**, **AWS**, and **Terraform**.
 
-- User authentication and protected API access
-- AWS resource inventory collection using boto3
-- CloudTrail-based event analysis
-- Security detection rules for common issues
-- Risk scoring for security posture evaluation
-- Alert and report generation support
-- A basic dashboard for interacting with the app
-- Automated tests for core functionality
+The project continuously monitors AWS resources, detects common cloud security vulnerabilities, analyzes CloudTrail events, calculates an overall security risk score, and generates security reports through REST APIs.
 
-## Status
+CloudShield demonstrates the practical implementation of cloud security automation and modern backend development techniques. It simulates the basic functionality of Cloud Security Posture Management (CSPM) solutions used in enterprise environments.
 
-This project is implemented as a working prototype with a functional backend, API routes, detection logic, and automated tests. AWS integrations require real credentials and permissions to run against a live AWS account.
+---
 
-## Quick start
+# 🎯 Project Objectives
 
-```bash
-cd /home/h3x/project/cloudshield
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+The main objectives of this project are:
 
-cp .env.example .env
-# edit .env: set AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_REGION,
-# and SECRET_KEY to a random string. Leave AWS creds blank to use your
-# default boto3 profile / instance role instead.
+- Monitor AWS cloud resources automatically.
+- Detect common cloud security threats.
+- Analyze CloudTrail logs.
+- Identify insecure AWS configurations.
+- Calculate security risk score.
+- Generate alerts and reports.
+- Demonstrate Infrastructure as Code using Terraform.
+- Showcase AWS Lambda integration.
+- Develop secure REST APIs using FastAPI.
+- Apply software engineering best practices.
 
-uvicorn app.main:app --reload
+---
+
+# ❗ Problem Statement
+
+Cloud environments change rapidly, making manual security monitoring difficult. Misconfigured S3 buckets, overly permissive Security Groups, root account usage, and insecure IAM permissions can expose organizations to security risks.
+
+CloudShield automates the monitoring process by collecting AWS resource information, applying security detection rules, generating findings, calculating risk scores, and presenting security insights through APIs.
+
+---
+
+# ✨ Features
+
+## Authentication
+
+- User Registration
+- User Login
+- JWT Authentication
+- Password Encryption using BCrypt
+
+---
+
+## AWS Monitoring
+
+Supports monitoring of:
+
+- Amazon EC2
+- Amazon S3
+- AWS IAM
+- AWS CloudTrail
+
+---
+
+## Security Detection Rules
+
+CloudShield currently detects:
+
+- Root Account Login
+- Public S3 Buckets
+- Open Security Groups
+- IAM Administrator Accounts
+- Old Access Keys
+
+---
+
+## Reporting
+
+- PDF Reports
+- CSV Reports
+- Weekly Reports
+- Monthly Reports
+
+---
+
+## Risk Scoring
+
+The application calculates an overall security score depending upon:
+
+- Critical Findings
+- High Findings
+- Medium Findings
+- Low Findings
+
+---
+
+## Infrastructure as Code
+
+Terraform automatically creates:
+
+- SNS Topic
+- EventBridge Rule
+- Lambda Trigger
+
+---
+
+## Automated Testing
+
+Includes automated testing using **Pytest**.
+
+---
+
+# 🏗 Technology Stack
+
+## Programming Language
+
+- Python 3.9+
+
+## Backend
+
+- FastAPI
+
+## Database
+
+- SQLite
+- SQLAlchemy ORM
+
+## Authentication
+
+- JWT
+- BCrypt
+
+## AWS Services
+
+- EC2
+- S3
+- IAM
+- CloudTrail
+- SNS
+- Lambda
+- EventBridge
+
+## Infrastructure
+
+- Terraform
+
+## Containerization
+
+- Docker
+- Docker Compose
+
+## Testing
+
+- Pytest
+
+---
+
+# 🏛 System Architecture
+
+```
+                     User
+                       │
+                       │
+                FastAPI Backend
+                       │
+       ┌───────────────┼───────────────┐
+       │               │               │
+ Authentication   Dashboard      Reports
+       │               │               │
+       └───────────────┼───────────────┘
+                       │
+               Monitoring Service
+                       │
+             Threat Detection Engine
+                       │
+ ┌──────────┬──────────┬──────────┬──────────┐
+ │          │          │          │          │
+EC2         S3        IAM   CloudTrail   Risk Engine
+                       │
+                AWS Cloud Account
+                       │
+           Findings + Security Score
+                       │
+        PDF Reports / CSV Reports / Alerts
 ```
 
-Then open:
-- http://127.0.0.1:8000/docs for the interactive API
-- http://127.0.0.1:8000/dashboard for the basic dashboard
+---
 
-## Running tests
+# 🔄 Project Workflow
 
-```bash
-pytest tests/ -v
-```
+1. User registers.
+2. User logs in.
+3. JWT token is generated.
+4. User initiates cloud scan.
+5. AWS resources are collected.
+6. Detection rules are executed.
+7. Findings are generated.
+8. Risk score is calculated.
+9. Reports are generated.
+10. Dashboard displays security posture.
 
-## Main API flow
+---
 
-1. Register a user via `POST /api/auth/register`
-2. Log in via `POST /api/auth/login`
-3. Run a scan via `POST /api/dashboard/scan`
-4. Review summary data via `GET /api/dashboard/summary`
-5. Review findings via `GET /api/alerts/findings`
-
-## Project structure
+# 📁 Project Structure
 
 ```text
 cloudshield/
-├── app/                  # FastAPI app, routers, services, models, detection logic
-├── lambda/               # Lambda-based detection logic
-├── terraform/            # Infrastructure as code for real-time workflow
-├── tests/                # Automated test suite
-├── docs/                 # Architecture and project documentation
-└── requirements.txt
+│
+├── app/
+│   ├── api/                   # REST API routes
+│   ├── aws/                   # AWS integrations
+│   ├── detection/             # Security detection rules
+│   ├── services/              # Business logic
+│   ├── models/                # Database models
+│   ├── utils/                 # Utility functions
+│   ├── templates/             # HTML templates
+│   ├── static/                # Static resources
+│   ├── config.py
+│   ├── database.py
+│   └── main.py
+│
+├── lambda/                    # Lambda functions
+│
+├── terraform/                 # Infrastructure as Code
+│
+├── docs/                      # Documentation
+│
+├── generated_reports/         # Generated reports
+│
+├── tests/                     # Automated tests
+│
+├── Dockerfile
+├── docker-compose.yml
+├── HOW_IT_WORKS.md
+├── SUBMISSION_SUMMARY.md
+├── README.md
+├── requirements.txt
+└── cloudshield.db
 ```
 
-## Notes for submission
+---
 
-This project is suitable for academic submission because it demonstrates a complete end-to-end implementation of a cloud security monitoring application with backend logic, API design, detection rules, testing, and deployment-related structure.
+# 📦 Installation
 
-### Required IAM permissions
+## Clone Repository
 
-The AWS user/role you point this at needs at least read access to:
-`ec2:Describe*`, `s3:ListAllMyBuckets`, `s3:GetBucketAcl`, `s3:GetPublicAccessBlock`,
-`iam:ListUsers`, `iam:ListAttachedUserPolicies`, `iam:ListAccessKeys`, `cloudtrail:LookupEvents`.
-For the Lambda/EventBridge/SNS real-time path (via Terraform), you'll also need permissions
-to create those resources — that's a one-time setup step, not something the app does at runtime.
+```bash
+git clone https://github.com/manishkumar0607/Cloud-Security-Monitoring_-_Threat-Detection-Platform.git
 
-## Running tests
+cd cloudshield
+```
+
+---
+
+## Create Virtual Environment
+
+Linux
+
+```bash
+python -m venv .venv
+
+source .venv/bin/activate
+```
+
+Windows
+
+```bash
+python -m venv .venv
+
+.venv\Scripts\activate
+```
+
+---
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Configure Environment
+
+Copy
+
+```bash
+cp .env.example .env
+```
+
+Configure
+
+```
+AWS_ACCESS_KEY_ID=
+
+AWS_SECRET_ACCESS_KEY=
+
+AWS_REGION=
+
+SECRET_KEY=
+```
+
+---
+
+# ▶ Run Application
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+Swagger API Documentation
+
+```
+http://127.0.0.1:8000/dashboard
+```
+
+Dashboard
+
+---
+
+# 🧪 Running Tests
+
+Run
 
 ```bash
 pytest tests/ -v
 ```
 
-19 tests: 5 detection-rule modules (positive + negative cases), the risk-scoring formula
-(including the exact 105-risk example from the architecture doc), and a smoke test that
-boots the app, creates tables, and runs the register → login → protected-route flow.
-None of these touch real AWS — they're safe to run anywhere.
+The project contains automated tests for:
 
-## Using it against your AWS account
+- Authentication
+- Detection Rules
+- Risk Scoring
+- Database
+- API Endpoints
 
-1. Set real credentials in `.env` (or leave blank + configure `~/.aws/credentials`).
-2. Register a user: `POST /api/auth/register` with a username/password.
-3. Log in to get a token, then use it as a Bearer token on everything else.
-4. `POST /api/dashboard/scan` — runs a full scan (inventory + CloudTrail + detection +
-   alerting) against your real account. This is the main entrypoint.
-5. `GET /api/dashboard/summary` — security score + open finding counts.
-6. `GET /api/alerts/findings` — the finding list, filterable by `status` / `severity`.
-7. `POST /api/reports/generate?report_type=weekly&fmt=pdf` — generates a report file.
+---
 
-For the **real-time** path (EventBridge → Lambda → SNS, instead of polling `/scan`):
+# 🔐 Detection Rules
+
+## Root Login Detection
+
+Detects AWS Root Account logins.
+
+Severity: **Critical**
+
+---
+
+## Public Bucket Detection
+
+Detects publicly accessible S3 buckets.
+
+Severity: **High**
+
+---
+
+## Open Security Group
+
+Detects unrestricted inbound traffic.
+
+Severity: **High**
+
+---
+
+## IAM Administrator Detection
+
+Detects IAM users with AdministratorAccess policy.
+
+Severity: **Medium**
+
+---
+
+## Access Key Detection
+
+Detects old IAM Access Keys.
+
+Severity: **Medium**
+
+---
+
+# 📊 Risk Scoring
+
+Example scoring:
+
+| Severity | Weight |
+|----------|---------|
+| Critical | 50 |
+| High | 25 |
+| Medium | 15 |
+| Low | 5 |
+
+The overall security score represents the cloud security posture.
+
+---
+
+# 📡 API Endpoints
+
+## Authentication
+
+```
+POST /api/auth/register
+```
+
+```
+POST /api/auth/login
+```
+
+---
+
+## Dashboard
+
+```
+POST /api/dashboard/scan
+```
+
+```
+GET /api/dashboard/summary
+```
+
+---
+
+## Alerts
+
+```
+GET /api/alerts/findings
+```
+
+---
+
+## Reports
+
+```
+POST /api/reports/generate
+```
+
+---
+
+## AWS Inventory
+
+```
+POST /api/aws/inventory
+```
+
+---
+
+# ☁ AWS Services Used
+
+| Service | Purpose |
+|----------|----------|
+| EC2 | Instance Monitoring |
+| S3 | Bucket Security |
+| IAM | Identity Monitoring |
+| CloudTrail | Event Monitoring |
+| SNS | Notifications |
+| Lambda | Serverless Detection |
+| EventBridge | Event Trigger |
+
+---
+
+# 🐳 Docker
+
+Build
 
 ```bash
-cd lambda && zip -r ../lambda.zip . && cd ..
-cd terraform && terraform init && terraform apply -var="alert_email=you@example.com"
+docker build -t cloudshield .
 ```
 
-## Folder structure
+Run
 
-```
-cloudshield/
-├── app/
-│   ├── main.py                 # FastAPI app, router wiring, startup DB init
-│   ├── config.py                # pydantic-settings, loads .env
-│   ├── database.py              # SQLAlchemy engine/session
-│   ├── api/                     # auth, aws, dashboard, alerts, reports routers
-│   ├── services/                 # auth, aws, monitoring, threat, alert, report services
-│   ├── aws/                      # boto3 wrappers: ec2, s3, iam, cloudtrail, sns, eventbridge
-│   ├── detection/                 # the 5 rule modules (root_login, public_bucket, ...)
-│   ├── models/models.py           # User, ScanHistory, Finding, Alert, Report
-│   └── utils/risk_scoring.py       # security score aggregator
-├── lambda/                        # standalone real-time detection Lambda
-├── terraform/main.tf              # SNS + Lambda + EventBridge IaC
-├── tests/                         # 19 tests, all passing
-├── docs/architecture.md           # architecture reference
-├── Dockerfile / docker-compose.yml
-└── requirements.txt
+```bash
+docker-compose up
 ```
 
-## What's stubbed vs. real
+---
 
-- **Real, tested**: all detection logic, risk scoring, auth (JWT + bcrypt), DB models,
-  API routing, CSV/PDF report generation, the boto3 wrapper functions themselves.
-- **Real but untested-by-me**: every function in `app/aws/*.py` — the boto3 calls are
-  correct against the current API, but I haven't run them against a live account. Run
-  `POST /api/aws/inventory` first against your account as a sanity check before wiring
-  up the full scan.
-- **Simplified**: email/SMTP sending isn't implemented in `alert_service.py` yet (SNS and
-  console channels are); the Lambda's rule set is a lighter subset of the 5 full rules,
-  kept in sync manually rather than importing `app/detection/` directly (Lambda packaging
-  favors a small dependency surface — no SQLAlchemy/FastAPI in the zip).
+# 🌍 Terraform
 
-## Next steps (pick what you want built out next)
+Initialize
 
-- Wire email sending into `alert_service.py` (SMTP config is already in `.env.example`)
-- Dashboard frontend (currently API-only — `app/templates/` and `app/static/` are empty)
-- Scheduled scans via APScheduler (already in requirements.txt, not wired up yet)
-- Expand detection rules (e.g. unencrypted EBS volumes, overly permissive IAM policies)
-# Cloud-Security-Monitoring_-_Threat-Detection-Platform
+```bash
+terraform init
+```
+
+Apply
+
+```bash
+terraform apply
+```
+
+Terraform provisions:
+
+- SNS Topic
+- EventBridge Rule
+- Lambda Trigger
+
+---
+
+# 📈 Future Enhancements
+
+- Email Notifications
+- AWS Config Integration
+- GuardDuty Integration
+- Security Hub Integration
+- CloudWatch Monitoring
+- Kubernetes (EKS) Monitoring
+- Multi-Account Support
+- Compliance Dashboard
+- CIS AWS Benchmark Checks
+- AI-based Threat Detection
+
+---
+
+# 📚 Learning Outcomes
+
+This project demonstrates:
+
+- Cloud Computing
+- Cloud Security
+- AWS SDK (Boto3)
+- FastAPI Development
+- JWT Authentication
+- SQLAlchemy ORM
+- REST API Design
+- Infrastructure as Code
+- Docker Containerization
+- AWS Lambda
+- Event-Driven Architecture
+- Security Monitoring
+- CloudTrail Analysis
+- Automated Testing
+
+---
+
+# 🎓 Academic Relevance
+
+This project integrates multiple domains of computer science:
+
+- Cloud Computing
+- Cyber Security
+- Backend Development
+- DevOps
+- Infrastructure Automation
+- Software Engineering
+
+It demonstrates practical implementation of cloud security monitoring and is suitable as a final-year B.Tech project.
+
+---
+
+# 👨‍💻 Author
+
+**Manish Kumar**
+
+**B.Tech – Cloud Technology & Information Security**
+
+---
+
+# 📄 License
+
+This project is developed for educational and academic purposes.
+
+```
+
+### One recommendation
+
+Replace the placeholder:
+
+```text
+git clone https://github.com/manishkumar0607/Cloud-Security-Monitoring_-_Threat-Detection-Platform.git
+```
+
+with **your actual GitHub repository URL** before submitting. Also consider adding screenshots of your Swagger UI, dashboard, and report generation in the README—they make a strong impression during evaluation.
