@@ -23,7 +23,7 @@ CloudShield demonstrates the practical implementation of cloud security automati
 
 # 🎯 Project Objectives
 
-The main objectives of this project are:
+The main objectives of this project are:-
 
 - Monitor AWS cloud resources automatically.
 - Detect common cloud security threats.
@@ -560,7 +560,7 @@ It demonstrates practical implementation of cloud security monitoring and is sui
 
 # 👨‍💻 Author
 
-**Manish Kumar**
+** Manish Kumar **
 
 **B.Tech – Cloud Technology & Information Security**
 
